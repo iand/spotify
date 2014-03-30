@@ -14,6 +14,7 @@ import (
 )
 
 type Client struct {
+	httpClient *http.Client
 }
 
 type SearchTracksResponse struct {
@@ -79,8 +80,8 @@ type Artist struct {
 	URI        string `json:"href,omitempty"`
 }
 
-func New() *Client {
-	return &Client{}
+func New(httpClient *http.Client) *Client {
+	return &Client{httpClient: httpClient}
 }
 
 func (client *Client) SearchTracks(srch string, page int) (*SearchTracksResponse, error) {
@@ -117,7 +118,7 @@ func (client *Client) SearchArtists(srch string, page int) (*SearchArtistsRespon
 }
 
 func (client *Client) doSearch(url string, data interface{}) error {
-	resp, err := http.Get(url)
+	resp, err := client.httpClient.Get(url)
 
 	if err != nil {
 		return fmt.Errorf("Search failed with http error: %s", err.Error())
@@ -172,7 +173,7 @@ func (client *Client) LookupArtist(uri string) (*Artist, error) {
 
 func (client *Client) doLookup(uri string, data interface{}) error {
 	url := fmt.Sprintf("http://ws.spotify.com/lookup/1/.json?uri=%s", url.QueryEscape(uri))
-	resp, err := http.Get(url)
+	resp, err := client.httpClient.Get(url)
 
 	if err != nil {
 		return fmt.Errorf("Lookup failed with http error: %s", err.Error())
