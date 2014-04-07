@@ -87,6 +87,10 @@ func New(httpClient *http.Client) *Client {
 	return &Client{httpClient: httpClient}
 }
 
+func NewDefault() *Client {
+	return New(http.DefaultClient)
+}
+
 func (client *Client) SearchTracks(srch string, page int) (*SearchTracksResponse, error) {
 	url := fmt.Sprintf("http://ws.spotify.com/search/1/track.json?q=%s&page=%d", url.QueryEscape(srch), page)
 	var data SearchTracksResponse

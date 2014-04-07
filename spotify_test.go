@@ -7,7 +7,7 @@ import (
 
 func TestSearch(t *testing.T) {
 
-	s := New(nil)
+	s := NewDefault()
 
 	_, err := s.SearchArtists("foo", 0)
 
