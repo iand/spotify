@@ -7,7 +7,7 @@ import (
 
 func TestSearch(t *testing.T) {
 
-	s := New(&http.Client{})
+	s := New(nil)
 
 	_, err := s.SearchArtists("foo", 0)
 

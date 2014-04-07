@@ -81,6 +81,9 @@ type Artist struct {
 }
 
 func New(httpClient *http.Client) *Client {
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
 	return &Client{httpClient: httpClient}
 }
 
